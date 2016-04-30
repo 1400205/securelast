@@ -34,10 +34,10 @@ error_reporting(E_ALL);
         if($_SESSION ["timeout"]+60 < time()){
 
             //session timed out
-            header("location: logout.php"); // Redirecting To Other Page
+         //   header("location: logout.php"); // Redirecting To Other Page
         }else{
             //reset session time
-            $_SESSION['timeout']=time();
+           // $_SESSION['timeout']=time();
         }
 
 
