@@ -90,16 +90,30 @@ error_reporting(E_ALL);
 
 
 
+        //instance of connection to dbase
+        $sqlidb = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
-            $commentSql="SELECT * FROM commentsSecure WHERE photoID='$photoID'";
-            $commentresult=mysqli_query($db,$commentSql) or die(mysqli_error($db));
-            if(mysqli_num_rows($commentresult)>1) {
+           // $commentSql="SELECT * FROM commentsSecure WHERE photoID='$photoID'";
+
+        if ($sqlidb->connect_errno){
+            echo"connection Failed";
+        }
+
+
+            //$commentresult=mysqli_query($db,$commentSql) or die(mysqli_error($db));
+            if($stmt=$sqlidb->prepare("SELECT * FROM commentsSecure WHERE photoID=?")) {
+
+                //bind parameter
+                $stmt->bind_param('i',$photoID);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
                 echo "<h2> Comments </h2>";
-                while($commentRow = mysqli_fetch_assoc($commentresult)){
+
+                while($row=$result->fetch_row()){
                     echo "<div class = 'comments'>";
-                    echo "<h3>".$commentRow['postDate']."</h3>";
-                    echo "<p>".$commentRow['description']."</p>";
+                    echo "<h3>".$row[1]."</h3>";
+                    echo "<p>".$row[2]."</p>";
                     echo "</div>";
                 }
 
