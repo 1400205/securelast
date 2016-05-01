@@ -34,27 +34,26 @@ if(isset($_POST["submit"]))
 
 
 
-        //Check username and password from database
-        if (!($data=$db->prepare("SELECT userID FROM users WHERE username=? and password=?;")))
-        {echo "fail";}
-
-        if(!$data->bind_param('ss',$username1,$password )) {
-            echo "binding parameters failed: (" . $data->errno . ")" . $data->error;
+        //prepare statement
+        if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=? and password=?")){
+            //bind parameter
+            $stmt->bind_param('ss',$username,$password);
+            $stmt->execute();
+            //get result
+            $result = $stmt->get_result();
         }
 
 
-        if (!$data -> execute()){
-            echo "Execute failed: (" . $data->errno . ") " . $data->error;
-        }
+        if( ($row=$result->fetch_row()))
 
-        $row=$data->fetch();
 
         // Initializing Session
         {
-            $_SESSION['username'] = $username1;
-
-            // Redirecting To Other Page
-            header("location: photos.php");
+            $_SESSION['username'] = $username; // Initializing Session
+            $_SESSION["userid"] = $row[0];//user id assigned to session global variable
+            $_SESSION["timeout"] = time();//get session time
+            $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];//get session time
+            header("location: photos.php"); // Redirecting To Other Page
         }
 
 
