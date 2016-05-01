@@ -29,8 +29,8 @@ if(isset($_POST["submit"]))
     $password=md5($password);
 
     //check against xss
-    $name=xss_cleaner($name);
-    $email=xss_cleaner($email);
+    //$name=xss_cleaner($name);
+    //$email=xss_cleaner($email);
 
     $sql="SELECT email FROM userssecure WHERE email='$email'";
     $result=mysqli_query($db,$sql);
@@ -46,16 +46,21 @@ if(isset($_POST["submit"]))
         }
 
         //call procedure
-        if ( !$mysqli->query("CALL sp_insertUserDetails('$email','$name','$password')"))  {
+        if ( !( $stmt=$mysqli->prepare("CALL sp_insertUserDetails(?,?,?)")))  {
+           // $stmt=$mysqli->prepare("CALL sp_insertUserDetails('$email','$name','$password')");
             echo "CALL failed: (" . $mysqli->errno . ") " . $mysqli->error;
         }
+
+        //bind parameter
+        $stmt->bind_param('sss', $email, $name,$password);
+        $stmt->execute();
         $result=1;
         //if(!$result) die("CALL failed: (" . $mysqli->errno . ") " . $mysqli->error);
         //echo $name." ".$email." ".$password;
        // $query = mysqli_query($db, "INSERT INTO usersSecure (username, email, password) VALUES ('$name', '$email', '$password')")or die(mysqli_error($db));
         if($result==1)
         {
-            $msg = "Thank You! you are now registered. click <a href='../../PhotoSecure/index.php'>here</a> to login";
+            $msg = "Thank You! you are now registered. click <a href='../../securelast/index.php'>here</a> to login";
         }
 
     }
