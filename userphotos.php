@@ -15,9 +15,9 @@ if(isset($_SESSION['username']))
     $name = $_SESSION["username"];
 
     //clean input photo user name
-    $name = stripslashes( $name );
-    $name=mysqli_real_escape_string($db,$name);
-    $name = htmlspecialchars($name);
+    //$name = stripslashes( $name );
+   // $name=mysqli_real_escape_string($db,$name);
+    //$name = htmlspecialchars($name);
 
     //declare instance of connection
         $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
@@ -30,7 +30,7 @@ if(isset($_SESSION['username']))
     //prepare statement
     if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=?")) {
         //bind parameter
-        $stmt->bind_param('s', $username);
+        $stmt->bind_param('s', $name);
         $stmt->execute();
         //get result
         $result = $stmt->get_result();
