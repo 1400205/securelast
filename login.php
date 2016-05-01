@@ -53,10 +53,6 @@ if(isset($_POST["submit"]))
 
                  else{
 
-
-
-
-
                         $error = "Incorrect username or password.";
                  }
     }
