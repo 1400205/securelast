@@ -41,7 +41,7 @@ if(isset($_POST["submit"]))
             //get result
             $result = $stmt->get_result();
 
-
+        }
             if (($row = $result->fetch_row())) {
                 $_SESSION['username'] = $username; // Initializing Session
                 $_SESSION["userid"] = $row[0];//user id assigned to session global variable
@@ -50,11 +50,15 @@ if(isset($_POST["submit"]))
 
                 header("location: photos.php"); // Redirecting To Other Page
             }
-        }
-        else{
 
-            $error = "Incorrect username or password.";
-        }
+                 else{
+
+
+
+
+
+                        $error = "Incorrect username or password.";
+                 }
     }
 }
 
