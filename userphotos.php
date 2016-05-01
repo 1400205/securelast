@@ -1,4 +1,8 @@
 <?php
+session_start();
+?>
+
+<?php
 
 //include ("secureSessionID.php");//verify user session
 //include ("inactiveTimeOut.php");//check user idle time

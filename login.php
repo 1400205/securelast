@@ -34,28 +34,26 @@ if(isset($_POST["submit"]))
         }
 
         //prepare statement
-        if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=? and password=?")){
+        if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=? and password=?")) {
             //bind parameter
-            $stmt->bind_param('ss',$username,$password);
+            $stmt->bind_param('ss', $username, $password);
             $stmt->execute();
             //get result
             $result = $stmt->get_result();
+
+
+            if (($row = $result->fetch_row())) {
+                $_SESSION['username'] = $username; // Initializing Session
+                $_SESSION["userid"] = $row[0];//user id assigned to session global variable
+                $_SESSION["timeout"] = time();//get session time
+                $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];//get session time
+
+                header("location: photos.php"); // Redirecting To Other Page
+            }
         }
-
-
-        if( ($row=$result->fetch_row()))
-        {
-            $_SESSION['username'] = $username; // Initializing Session
-            $_SESSION["userid"] = $row[0];//user id assigned to session global variable
-            $_SESSION["timeout"] = time();//get session time
-            $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];//get session time
-
-            header("location: photos.php"); // Redirecting To Other Page
-        }else
-        {
+        else{
             $error = "Incorrect username or password.";
         }
-
     }
 }
 
