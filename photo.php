@@ -60,12 +60,9 @@ function xssafe($data,$encoding='UTF-8')
         $photoID = $_GET['id'];
 
         //clean input user name
-        //$photoID = stripslashes( $photoID );
-       // $photoID=mysqli_real_escape_string($db,$photoID);
-      //  $photoID = htmlspecialchars( $photoID );
-        if( $photoID ){
-            echo $photoID;
-        }
+        $photoID = stripslashes( $photoID );
+       $photoID=mysqli_real_escape_string($db,$photoID);
+       $photoID = htmlspecialchars( $photoID );
 
 
         //instance of connection to dbase
