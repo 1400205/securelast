@@ -35,7 +35,7 @@ if(isset($_SESSION['username']))
         //get result
         $result = $stmt->get_result();
     }
-        $result->close();
+        //$result->close();
 
         //$result=mysqli_query($db,$sql);
     //$row=mysqli_fetch_assoc($result);
