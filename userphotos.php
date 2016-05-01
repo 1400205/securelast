@@ -19,12 +19,28 @@ if(isset($_SESSION['username']))
     $name=mysqli_real_escape_string($db,$name);
     $name = htmlspecialchars($name);
 
-    $sql="SELECT userID FROM usersSecure WHERE username='$name'";
-    $result=mysqli_query($db,$sql);
-    $row=mysqli_fetch_assoc($result);
-    if(mysqli_num_rows($result) == 1)
+    //declare instance of connection
+        $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+        if (!($sqlcon->connect_errno)){
+            echo"connection Failed";
+        }
+
+    //$sql="SELECT userID FROM usersSecure WHERE username='$name'";
+
+    //prepare statement
+    if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=?")) {
+        //bind parameter
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        //get result
+        $result = $stmt->get_result();
+    }
+
+        //$result=mysqli_query($db,$sql);
+    //$row=mysqli_fetch_assoc($result);
+    if(($row = $result->fetch_row()))
     {
-        $searchID = $row['userID'];
+        $searchID = $row[0];
         $searchSql="SELECT title, photoID,url FROM photosSecure WHERE userID='$searchID'";
         $searchresult=mysqli_query($db,$searchSql);
 
