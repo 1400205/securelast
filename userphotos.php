@@ -29,7 +29,7 @@ if(isset($_SESSION['username']))
     $sql="SELECT userID FROM usersSecure WHERE username='$name'";
     //$result=mysqli_query($db,$sql);
     //$row=mysqli_fetch_assoc($result);
-    if$row=$data->fetch())
+    if($row=$data->fetch())
     {
         $searchID = $row['userID'];
         $searchSql="SELECT title, photoID,url FROM photosSecure WHERE userID='$searchID'";
