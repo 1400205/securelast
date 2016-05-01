@@ -2,7 +2,9 @@
 session_start();
 ?>
 <?php
-include("connection.php"); //Establishing connection with our database
+//include("connection.php"); //Establishing connection with our database
+//declare instance of connection
+$sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 
 $error = ""; //Variable for storing our errors.
 if(isset($_POST["submit"]))
@@ -12,6 +14,8 @@ if(isset($_POST["submit"]))
         $error = "Both fields are required.";
     }else
     {
+
+
         // Define $username and $password
         $username=$_POST['username'];
         $password=$_POST['password'];
@@ -23,8 +27,6 @@ if(isset($_POST["submit"]))
 
         //implement prepared statement to take of sql injection and other vulnerabilities
 
-        //declare instance of connection
-        $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 
         if (!($sqlcon->connect_errno)){
             echo"connection Failed";
