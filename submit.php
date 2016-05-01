@@ -49,11 +49,11 @@ if(isset($_POST["submit"]))
         if ( !$mysqli->query("CALL sp_insertUserDetails('$email','$name','$password')"))  {
             echo "CALL failed: (" . $mysqli->errno . ") " . $mysqli->error;
         }
-
+        $result=1;
         //if(!$result) die("CALL failed: (" . $mysqli->errno . ") " . $mysqli->error);
         //echo $name." ".$email." ".$password;
        // $query = mysqli_query($db, "INSERT INTO usersSecure (username, email, password) VALUES ('$name', '$email', '$password')")or die(mysqli_error($db));
-        if($result)
+        if($result==1)
         {
             $msg = "Thank You! you are now registered. click <a href='../../PhotoSecure/index.php'>here</a> to login";
         }
