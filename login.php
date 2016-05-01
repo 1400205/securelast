@@ -30,7 +30,7 @@ if(isset($_POST["submit"]))
         //declare instance of connection
         $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
         if (!($sqlcon->connect_errno)){
-            echo"connection Failed";
+            $error="connection Failed";
         }
 
         //prepare statement
