@@ -21,16 +21,26 @@ if(isset($_POST["submit"]))
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-//clean user input
+//clean user input name
     $name=mysqli_real_escape_string($db,$name);
     $email=mysqli_real_escape_string($db,$email);
+    //clean input user name
+    $name = stripslashes( $name );
+    $name=mysqli_real_escape_string($db,$name);
+    $name = htmlspecialchars($name);
+    $name=xss_cleaner($name);
+    $password=md5($password);
 
     //encrypt password
     $password=md5($password);
 
-    //check against xss
-    //$name=xss_cleaner($name);
-    //$email=xss_cleaner($email);
+    //clean user input email
+
+    $email = stripslashes( $email );
+    $email=mysqli_real_escape_string($db,$email);
+    $email = htmlspecialchars($email);
+    $email=xss_cleaner($email);
+
 
     $sql="SELECT email FROM userssecure WHERE email='$email'";
     $result=mysqli_query($db,$sql);

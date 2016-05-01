@@ -17,7 +17,7 @@ if(isset($_POST["submit"]))
         $username=$_POST['username'];
         $password=$_POST['password'];
 
-        //clean input photo user name
+        //clean input user name
         $username = stripslashes( $username );
         $username=mysqli_real_escape_string($db,$username);
         $username = htmlspecialchars($username);
