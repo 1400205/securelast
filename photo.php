@@ -10,6 +10,14 @@ $timeout=$_SESSION ["timeout"];
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+
+//Function to cleanup user input for xss
+function xss_cleaner($input_str) {
+    $return_str = str_replace( array('<','>',"'",'"',')','(','/'), array('&lt;','&gt;','&apos;','&#x22;','&#x29;','&#x28;','&mm'), $input_str );
+    $return_str = str_ireplace( '%3Cscript', '', $return_str );
+    return $return_str;
+}
 ?>
 <!doctype html>
 <html>
@@ -79,10 +87,10 @@ error_reporting(E_ALL);
            // echo "<img src='".$url."'/>";
             //echo " <p>".$desc."</p>";
 
-            echo "<h1>".$row[1]."</h1>";
-            echo "<h3>".$row[5]."</h3>";
-            echo "<img src='".$row[3]."'/>";
-            echo " <p>".$row[2]."</p>";
+            echo "<h1>".xss_cleaner($row[1])."</h1>";
+            echo "<h3>".xss_cleaner($row[5])."</h3>";
+            echo "<img src='".xss_cleaner($row[3])."'/>";
+            echo " <p>".xss_cleaner($row[2])."</p>";
 
         }//$stmt->close();
 
