@@ -56,7 +56,7 @@ if(isset($_SESSION['username']))
 
         if(($searchRow = $searchresult->fetch_row())){
             while(($searchRow = $searchresult->fetch_row())){
-                $line = "<p><img src='".$searchRow['url']."' style='width:100px;height:100px;'><a href='photo.php?id=".$searchRow['photoID']."'>".$searchRow['title']."</a></p>";
+                $line = "<p><img src='".$searchRow[2]."' style='width:100px;height:100px;'><a href='photo.php?id=".$searchRow[1]."'>".$searchRow[0]."</a></p>";
                 $resultText = $resultText.$line;
             }
         }
