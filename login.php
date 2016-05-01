@@ -1,8 +1,6 @@
-
 <?php
 session_start();
-?>
-<?php
+
 include("connection.php"); //Establishing connection with our database
 
 $error = ""; //Variable for storing our errors.
@@ -13,48 +11,47 @@ if(isset($_POST["submit"]))
         $error = "Both fields are required.";
     }else
     {
-        // Define $username and $password
-        $username=$_POST['username'];
-        $password=$_POST['password'];
-
-        //clean input user name
-        $username = stripslashes( $username );
-        $username=mysqli_real_escape_string($db,$username);
+        // Define & Sanitize username
+        $username = $_POST['username'];
+        $username = stripslashes($username);
+        $username = mysqli_real_escape_string($db, $username);
         $username = htmlspecialchars($username);
+
+        // Define & Sanitize password
+        $password = $_POST['password'];
+        $password = stripslashes($password);
+        $password = mysqli_real_escape_string($db, $password);
         $password=md5($password);
 
 
 
-        //implement prepared statement to take of sql injection and other vulnerabilities
-
-        //declare instance of connection
-        $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-       if (!($sqlcon->connect_errno)){
+        //Defence against SQLi
+        $conn=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+        if (!($conn->connect_errno)){
             echo"connection Failed";
-       }
+        }
 
-        //prepare statement
-        if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=? and password=?")) {
-            //bind parameter
+        //prepare & bind statement.
+        if($stmt=$conn->prepare("SELECT userID FROM usersSecure WHERE username=? and password=?")) {
             $stmt->bind_param('ss', $username, $password);
             $stmt->execute();
-            //get result
+
             $result = $stmt->get_result();
 
         }
-            if (($row = $result->fetch_row())) {
-                $_SESSION['username'] = $username; // Initializing Session
-                $_SESSION["userid"] = $row[0];//user id assigned to session global variable
-                $_SESSION["timeout"] = time();//get session time
-                $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];//get session time
+        if (($row = $result->fetch_row())) {
+            $_SESSION['username'] = $username; // Initializing Session
+            $_SESSION["userid"] = $row[0];//user id assigned to session global variable
+            $_SESSION["timeout"] = time();//get current session time
+            $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];//get machine ip
 
-                header("location: photos.php"); // Redirecting To Other Page
-            }
+            header("location: photos.php"); // Redirecting To Other Page
+        }
 
-                 else{
+        else{
 
-                        $error = "Incorrect username or password.";
-                 }
+            $error = "Incorrect username or password.";
+        }
     }
 }
 
