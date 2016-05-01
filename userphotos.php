@@ -22,7 +22,7 @@ if(isset($_SESSION['username']))
     //declare instance of connection
         $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
         if (!($sqlcon->connect_errno)){
-            echo"connection Failed";
+            //echo"connection Failed";
         }
 
     //$sql="SELECT userID FROM usersSecure WHERE username='$name'";
