@@ -18,6 +18,10 @@ function xss_cleaner($input_str) {
     $return_str = str_ireplace( '%3Cscript', '', $return_str );
     return $return_str;
 }
+
+function xssafe($data,$encoding='UTF-8')
+{return htmlspecialchars($data, ENT_HTML401|ENT_QUOTES |ENT_HTML5);}
+
 ?>
 <!doctype html>
 <html>
@@ -87,10 +91,10 @@ function xss_cleaner($input_str) {
            // echo "<img src='".$url."'/>";
             //echo " <p>".$desc."</p>";
 
-            echo "<h1>".xss_cleaner($row[1])."</h1>";
-            echo "<h3>".xss_cleaner($row[5])."</h3>";
-            echo "<img src='".xss_cleaner($row[3])."'/>";
-            echo " <p>".xss_cleaner($row[2])."</p>";
+            echo "<h1>".xssafe(xss_cleaner($row[1]))."</h1>";
+            echo "<h3>".xssafe(xss_cleaner($row[5]))."</h3>";
+            echo "<img src='".xssafe(ss_cleaner($row[3]))."'/>";
+            echo " <p>".xssafe(xss_cleaner($row[2]))."</p>";
 
         }//$stmt->close();
 
