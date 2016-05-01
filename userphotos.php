@@ -35,17 +35,27 @@ if(isset($_SESSION['username']))
         //get result
         $result = $stmt->get_result();
     }
+        $result->close();
 
         //$result=mysqli_query($db,$sql);
     //$row=mysqli_fetch_assoc($result);
     if(($row = $result->fetch_row()))
     {
         $searchID = $row[0];
-        $searchSql="SELECT title, photoID,url FROM photosSecure WHERE userID='$searchID'";
-        $searchresult=mysqli_query($db,$searchSql);
 
-        if(mysqli_num_rows($searchresult)>0){
-            while($searchRow = mysqli_fetch_assoc($searchresult)){
+        //get search result with suer ID
+        $stmt=$sqlcon->prepare("SELECT title, photoID,url FROM photosSecure WHERE userID=?");
+       // $searchSql="SELECT title, photoID,url FROM photosSecure WHERE userID='$searchID'";
+
+        //bind parameter
+        $stmt->bind_param('i', $searchID);
+        $stmt->execute();
+        //get result
+        $searchresult = $stmt->get_result();
+       // $searchresult=mysqli_query($db,$searchSql);
+
+        if(($searchRow = $searchresult->fetch_row())){
+            while(($searchRow = $searchresult->fetch_row())){
                 $line = "<p><img src='".$searchRow['url']."' style='width:100px;height:100px;'><a href='photo.php?id=".$searchRow['photoID']."'>".$searchRow['title']."</a></p>";
                 $resultText = $resultText.$line;
             }
