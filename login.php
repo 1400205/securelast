@@ -29,9 +29,9 @@ if(isset($_POST["submit"]))
 
         //declare instance of connection
         $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-        if (!($sqlcon->connect_errno)){
-            echo"connection Failed";
-        }
+       // if (!($sqlcon->connect_errno)){
+          //  echo"connection Failed";
+       // }
 
         //prepare statement
         if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=? and password=?")) {
@@ -52,7 +52,9 @@ if(isset($_POST["submit"]))
             }
         }
         else{
-            $error = "Incorrect username or password.";
+            if ($_SESSION["userid"]<1) {
+                $error = "Incorrect username or password.";
+            }
         }
     }
 }
