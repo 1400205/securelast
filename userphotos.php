@@ -3,13 +3,21 @@ session_start();
 ?>
 
 <?php
+include("connection.php"); //Establishing connection with our database
+//get session info
+$login_user= $_SESSION["username"];
+$ip=$_SESSION["ip"];
+$timeout=$_SESSION ["timeout"];
 
-//include ("secureSessionID.php");//verify user session
-//include ("inactiveTimeOut.php");//check user idle time
 $resultText = "";
 if(isset($_SESSION['username']))
 {
     $name = $_SESSION["username"];
+
+    //clean input photo user name
+    $name = stripslashes( $name );
+    $name=mysqli_real_escape_string($db,$name);
+    $name = htmlspecialchars($name);
 
     $sql="SELECT userID FROM usersSecure WHERE username='$name'";
     $result=mysqli_query($db,$sql);
