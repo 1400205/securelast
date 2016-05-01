@@ -60,7 +60,7 @@ if(isset($_POST["submit"]))
        // $query = mysqli_query($db, "INSERT INTO usersSecure (username, email, password) VALUES ('$name', '$email', '$password')")or die(mysqli_error($db));
         if($result==1)
         {
-            $msg = "Thank You! you are now registered. click <a href='../../securelast/index.php'>here</a> to login";
+            $msg = "Thank You! you are now registered. click <a href='../../index.php'>here</a> to login";
         }
 
     }
