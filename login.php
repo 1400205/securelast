@@ -1,8 +1,11 @@
+<?php
 
-<?php
+//display error
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
-?>
-<?php
 include("connection.php"); //Establishing connection with our database
 
 $error = ""; //Variable for storing our errors.
@@ -14,49 +17,47 @@ if(isset($_POST["submit"]))
     }else
     {
         // Define $username and $password
-        $username=$_POST['username'];
+        $username1=$_POST['username'];
         $password=$_POST['password'];
 
-        //clean input photo user name
-        $username = stripslashes( $username );
-        $username=mysqli_real_escape_string($db,$username);
-        $username = htmlspecialchars($username);
-        $password=md5($password);
+
+        // To protect from MySQL injection and XSS
+        $username1 = stripslashes($username1);
+        $password = stripslashes($password);
+        $username1 = mysqli_real_escape_string($db, $username1);
+        $password = mysqli_real_escape_string($db, $password);
+        $username1 = htmlspecialchars($username1);
+        $password = htmlspecialchars($password);
+
+        $password = md5($password);
 
 
 
-        //implement prepared statement to take of sql injection and other vulnerabilities
 
-        //declare instance of connection
-        $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-        if (!($sqlcon->connect_errno)){
-            $error="connection Failed";
-        }
+        //Check username and password from database
+        if (!($data=$db->prepare("SELECT userID FROM users WHERE username=? and password=?;")))
+        {echo "fail";}
 
-        //prepare statement
-        if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=? and password=?")){
-            //bind parameter
-            $stmt->bind_param('ss',$username,$password);
-            $stmt->execute();
-            //get result
-            $result = $stmt->get_result();
+        if(!$data->bind_param('ss',$username1,$password )) {
+            echo "binding parameters failed: (" . $data->errno . ")" . $data->error;
         }
 
 
-        if( ($row=$result->fetch_row()))
+        if (!$data -> execute()){
+            echo "Execute failed: (" . $data->errno . ") " . $data->error;
+        }
+
+        $row=$data->fetch();
+
+        // Initializing Session
         {
-            $_SESSION['username'] = $username; // Initializing Session
-            $_SESSION["userid"] = $row[0];//user id assigned to session global variable
-            $_SESSION["timeout"] = time();//get session time
-            $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];//get session time
+            $_SESSION['username'] = $username1;
 
-            header("location: photos.php"); // Redirecting To Other Page
-        }else
-        {
-            $error = "Incorrect username or password.";
+            // Redirecting To Other Page
+            header("location: photos.php");
         }
+
 
     }
 }
-
 ?>
