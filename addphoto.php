@@ -7,6 +7,13 @@ session_start();
 $name = $_SESSION["username"];
 $userID=$_SESSION["userid"];
 $ip=$_SESSION["ip"];
+
+//Function to cleanup user input for xss
+function xss_cleaner($input_str) {
+    $return_str = str_replace( array('<','>',"'",'"',')','(','/'), array('&lt;','&gt;','&apos;','&#x22;','&#x29;','&#x28;','&mm'), $input_str );
+    $return_str = str_ireplace( '%3Cscript', '', $return_str );
+    return $return_str;
+}
 ?>
 <?php
 include("connection.php"); //Establishing connection with our database
@@ -27,14 +34,6 @@ if($_SESSION ["timeout"]+60 < time()){
     $_SESSION['timeout']=time();
 }
 $msg = ""; //Variable for storing our errors.
-
-
-//Function to cleanup user input for xss
-function xss_cleaner($input_str) {
-    $return_str = str_replace( array('<','>',"'",'"',')','('), array('&lt;','&gt;','&apos;','&#x22;','&#x29;','&#x28;'), $input_str );
-    $return_str = str_ireplace( '%3Cscript', '', $return_str );
-    return $return_str;
-}
 
 if(isset($_POST["submit"]))
 {
