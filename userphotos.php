@@ -7,29 +7,10 @@ if(isset($_SESSION['username']))
 {
     $name = $_SESSION["username"];
 
-    //declare instance of connection
-    $sqlcon=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-
-    //prepare statement
-    if($stmt=$sqlcon->prepare("SELECT userID FROM usersSecure WHERE username=?")){
-        //bind parameter
-        $stmt->bind_param('s',$name);
-        $stmt->execute();
-
-        //get result
-      //  $result = $stmt->get_result();
-    }
-
-    if (!$data -> execute()){
-        echo "Execute failed: (" . $data->errno . ") " . $data->error;
-    }
-
-    $row=$data->fetch();
-
-    //$sql="SELECT userID FROM usersSecure WHERE username='$name'";
-    //$result=mysqli_query($db,$sql);
-    //$row=mysqli_fetch_assoc($result);
-    if($row=$data->fetch())
+    $sql="SELECT userID FROM usersSecure WHERE username='$name'";
+    $result=mysqli_query($db,$sql);
+    $row=mysqli_fetch_assoc($result);
+    if(mysqli_num_rows($result) == 1)
     {
         $searchID = $row['userID'];
         $searchSql="SELECT title, photoID,url FROM photosSecure WHERE userID='$searchID'";
