@@ -29,7 +29,6 @@ if(isset($_POST["submit"]))
     $name=mysqli_real_escape_string($db,$name);
     $name = htmlspecialchars($name);
     $name=xss_cleaner($name);
-    $password=md5($password);
 
     //encrypt password
     $password=md5($password);
