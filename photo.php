@@ -93,7 +93,7 @@ function xssafe($data,$encoding='UTF-8')
 
             echo "<h1>".xssafe(xss_cleaner($row[1]))."</h1>";
             echo "<h3>".xssafe(xss_cleaner($row[5]))."</h3>";
-            echo "<img src='".xssafe(ss_cleaner($row[3]))."'/>";
+            echo "<img src='".xssafe(xss_cleaner($row[3]))."'/>";
             echo " <p>".xssafe(xss_cleaner($row[2]))."</p>";
 
         }//$stmt->close();
