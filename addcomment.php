@@ -61,7 +61,7 @@ if(isset($_POST["submit"]))
 
         }else{
             //bind parameter
-            $stmt->bind_param('ssi', $desc, $name,$photoID);
+            $stmt->bind_param('sii', $desc, $userID,$photoID);
             $stmt->execute();
             $msg = "Thank You! comment added. click <a href='photo.php?id=".$photoID."'>here</a> to go back";
         }
