@@ -52,11 +52,15 @@ if(isset($_POST["submit"]))
         }
 
         //call procedure
-        if (! $mysqli->query("CALL sp_insertComments('$desc','$photoID','$userID')"))  {
+
+       // if (! $mysqli->query("CALL sp_insertComments('$desc','$photoID','$userID')"))
+        if ( !( $stmt=$mysqli->prepare("CALL sp_insertComments(?,?,?)"))) {
             echo "Procedure Call Failed:";
 
         }else{
-
+            //bind parameter
+            $stmt->bind_param('sii', $desc, $photoID,$userID);
+            $stmt->execute();
             $msg = "Thank You! comment added. click <a href='photo.php?id=".$photoID."'>here</a> to go back";
         }
     }
