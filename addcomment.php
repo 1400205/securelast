@@ -47,9 +47,11 @@ if(isset($_POST["submit"]))
     $photoID = htmlspecialchars($photoID);
     $photoID=xssafe($photoID);
     $photoID=trim($photoID);
-echo $userID;
+
     if($userID >0) {
         //test connection
+
+        echo $userID;
         if ($mysqli->connect_errno) {
             echo "Connetion Failed:check network connection";// to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
         }
