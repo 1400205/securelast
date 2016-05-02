@@ -9,6 +9,17 @@ include("connection.php"); //Establishing connection with our database
 $mysqli = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 if(!$mysqli) die('Could not connect.');
 
+//Function to cleanup user input for xss
+function xss_cleaner($input_str) {
+    $return_str = str_replace( array('<','>',"'",'"',')','('), array('&lt;','&gt;','&apos;','&#x22;','&#x29;','&#x28;'), $input_str );
+    $return_str = str_ireplace( '%3Cscript', '', $return_str );
+    return $return_str;
+}
+//function to filter user input or output
+function xssafe($data,$encoding='UTF-8')
+{return htmlspecialchars($data, ENT_HTML401|ENT_QUOTES |ENT_HTML5);}
+
+
 //get the session variables
 $name = $_SESSION["username"];
 $userID=$_SESSION["userid"];
