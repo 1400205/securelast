@@ -79,7 +79,7 @@ function xssafe($data,$encoding='UTF-8')
 
 
         //bind parameter
-        $stmt->bind_param('i',$_GET['id']);
+        $stmt->bind_param('i',$photoID);
         $stmt->execute();
       $result = $stmt->get_result();
          //  $stmt->bind_result($title, $pdate,$url,$desc);
