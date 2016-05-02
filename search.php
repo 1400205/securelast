@@ -8,6 +8,22 @@ session_start();
 <?php
 $resultText = "";
 
+$ip=$_SESSION["ip"];
+$timeout=$_SESSION ["timeout"];
+
+
+if (!($ip==$_SERVER['REMOTE_ADDR'])){
+    header("location: logout.php"); // Redirecting To Other Page
+}
+
+if($_SESSION ["timeout"]+60 < time()){
+
+    //session timed out
+    header("location: logout.php"); // Redirecting To Other Page
+}else{
+    //reset session time
+    $_SESSION['timeout']=time();
+}
 
 if(isset($_POST["submit"]))
 {
@@ -15,6 +31,7 @@ if(isset($_POST["submit"]))
     //filter user input
     $name=mysqli_real_escape_string($db,$name);
     $name=xss_cleaner($name);
+    $name=xssafe($name);
 
     //instance of connection to dbase
     $mysqli = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
