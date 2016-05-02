@@ -63,6 +63,8 @@ function xssafe($data,$encoding='UTF-8')
         $photoID = stripslashes( $photoID );
        $photoID=mysqli_real_escape_string($db,$photoID);
        $photoID = htmlspecialchars( $photoID );
+        $photoID = xssafe( $photoID );
+        $photoID = xss_cleaner( $photoID );
 
 
         //instance of connection to dbase
