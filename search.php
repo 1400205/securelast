@@ -47,7 +47,7 @@ if(isset($_POST["submit"]))
     $mysqli->query("SET @userID=0");
 
     if ( !$mysqli->query("CALL getUserIDbyUserName('$name',@userID)"))  {
-       // echo "CALL failed: (" . $mysqli->errno . ") " . $mysqli->error;
+       echo "CALL failed";
     }
 
          //get user id into a variable
