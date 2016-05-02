@@ -64,7 +64,7 @@ error_reporting(E_ALL);
         //prepared statement statement
 
        if(($stmt=$sqlidb->prepare("SELECT * FROM photosSecure WHERE photoID=?"))) {
-           echo "prepared failed.";
+          //echo "prepared failed.";
 
 
         //bind parameter
