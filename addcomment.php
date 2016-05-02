@@ -32,18 +32,21 @@ if(isset($_POST["submit"]))
     $desc=mysqli_real_escape_string($db,$desc);
     $desc = htmlspecialchars( $desc );
     $desc=xssafe($desc);
+    $desc=trim($desc);
 
     //clean input name
     $name = stripslashes( $name );
     $name=mysqli_real_escape_string($db,$name);
     $name = htmlspecialchars($name);
     $name=xssafe($name);
+    $name=trim($name);
 
     //clean input photo ID
     $photoID = stripslashes( $photoID );
     $photoID=mysqli_real_escape_string($db,$photoID);
     $photoID = htmlspecialchars($photoID);
     $photoID=xssafe($photoID);
+    $photoID=trim($photoID);
 
     if($userID >0) {
         //test connection
@@ -52,11 +55,14 @@ if(isset($_POST["submit"]))
         }
 
         //call procedure
-        if (! $mysqli->query("CALL sp_insertComments('$desc','$photoID','$userID')"))  {
+       // if (! $mysqli->query("CALL sp_insertComments('$desc','$photoID','$userID')"))
+        if ( !( $stmt=$mysqli->prepare("CALL sp_insertComments(?,?,?)"))) {
             echo "Procedure Call Failed:";
 
         }else{
-
+            //bind parameter
+            $stmt->bind_param('ssi', $desc, $name,$photoID);
+            $stmt->execute();
             $msg = "Thank You! comment added. click <a href='photo.php?id=".$photoID."'>here</a> to go back";
         }
     }
