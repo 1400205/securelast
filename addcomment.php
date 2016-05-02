@@ -47,7 +47,7 @@ if(isset($_POST["submit"]))
     $photoID = htmlspecialchars($photoID);
     $photoID=xssafe($photoID);
     $photoID=trim($photoID);
-
+echo $userID;
     if($userID >0) {
         //test connection
         if ($mysqli->connect_errno) {
