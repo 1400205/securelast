@@ -2,9 +2,11 @@
 session_start();
 include("check.php");
 include("addcomment.php");
-
+//store session variables
 $ip=$_SESSION["ip"];
 $timeout=$_SESSION ["timeout"];
+
+
 if (!($ip==$_SERVER['REMOTE_ADDR'])){
     header("location: logout.php"); // Redirecting To Other Page
 }

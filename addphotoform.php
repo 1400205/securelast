@@ -13,11 +13,14 @@ $login_userID= $_SESSION["userid"];
 //include ("inactiveTimeOut.php");//check user idle time
 
 //check session highjacking
+$ip=$_SESSION["ip"];
+$timeout=$_SESSION ["timeout"];
+
+
 if (!($ip==$_SERVER['REMOTE_ADDR'])){
     header("location: logout.php"); // Redirecting To Other Page
 }
 
-//check logut/idle time
 if($_SESSION ["timeout"]+60 < time()){
 
     //session timed out
