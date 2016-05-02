@@ -7,7 +7,7 @@ include("connection.php"); //Establishing connection with our database
 <?php
 //connect to db
 $mysqli = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-if(!$mysqli) die('Could not connect$: ' . mysqli_error());
+if(!$mysqli) die('Could not connect.');
 
 //get the session variables
 
@@ -32,6 +32,7 @@ if(isset($_POST["submit"]))
     $desc=mysqli_real_escape_string($db,$desc);
     $desc = htmlspecialchars( $desc );
     $desc=xssafe($desc);
+    $desc=trim($desc);
 
     //clean input name
     $name = stripslashes( $name );
@@ -44,6 +45,7 @@ if(isset($_POST["submit"]))
     $photoID=mysqli_real_escape_string($db,$photoID);
     $photoID = htmlspecialchars($photoID);
     $photoID=xssafe($photoID);
+    $photoID=trim($photoID);
 
     if($userID >0) {
         //test connection
