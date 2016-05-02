@@ -8,23 +8,6 @@ session_start();
 <?php
 $resultText = "";
 
-$ip=$_SESSION["ip"];
-$timeout=$_SESSION ["timeout"];
-
-
-if (!($ip==$_SERVER['REMOTE_ADDR'])){
-    header("location: logout.php"); // Redirecting To Other Page
-}
-
-if($_SESSION ["timeout"]+60 < time()){
-
-    //session timed out
-    header("location: logout.php"); // Redirecting To Other Page
-}else{
-    //reset session time
-    $_SESSION['timeout']=time();
-}
-
 if(isset($_POST["submit"]))
 {
     $name = $_POST["username"];

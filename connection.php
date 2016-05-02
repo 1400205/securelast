@@ -21,4 +21,21 @@ function xss_cleaner($input_str) {
     $return_str = str_ireplace( '%3Cscript', '', $return_str );
     return $return_str;
 }
+
+$ip=$_SESSION["ip"];
+$timeout=$_SESSION ["timeout"];
+
+
+if (!($ip==$_SERVER['REMOTE_ADDR'])){
+    header("location: logout.php"); // Redirecting To Other Page
+}
+
+if($_SESSION ["timeout"]+60 < time()){
+
+    //session timed out
+    header("location: logout.php"); // Redirecting To Other Page
+}else{
+    //reset session time
+    $_SESSION['timeout']=time();
+}
 ?>
