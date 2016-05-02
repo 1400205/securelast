@@ -5,14 +5,8 @@
 $msg = "";
 //connections
 include("connection.php"); //Establishing connection with our database
+include ("check.php");
 $mysqli = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);//instance of connection
-
-//Function to cleanup user input for xss
-function xss_cleaner($input_str) {
-    $return_str = str_replace( array('<','>',"'",'"',')','('), array('&lt;','&gt;','&apos;','&#x22;','&#x29;','&#x28;'), $input_str );
-    $return_str = str_ireplace( '%3Cscript', '', $return_str );
-    return $return_str;
-}
 if(!$mysqli) die('Could not connect$: ' . mysqli_error());
 
 if(isset($_POST["submit"]))
