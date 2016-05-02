@@ -31,27 +31,27 @@ if(isset($_POST["submit"]))
     $desc = stripslashes( $desc );
     $desc=mysqli_real_escape_string($db,$desc);
     $desc = htmlspecialchars( $desc );
-    $desc=xssafe($desc);
-    $desc=trim($desc);
+    //$desc=xssafe($desc);
+   // $desc=trim($desc);
 
     //clean input name
     $name = stripslashes( $name );
     $name=mysqli_real_escape_string($db,$name);
     $name = htmlspecialchars($name);
-    $name=xssafe($name);
-    $name=trim($name);
+   // $name=xssafe($name);
+   // $name=trim($name);
 
     //clean input photo ID
     $photoID = stripslashes( $photoID );
     $photoID=mysqli_real_escape_string($db,$photoID);
     $photoID = htmlspecialchars($photoID);
-    $photoID=xssafe($photoID);
-    $photoID=trim($photoID);
+  // $photoID=xssafe($photoID);
+   // $photoID=trim($photoID);
 
     if($userID >0) {
         //test connection
 
-        echo $userID;
+
         if ($mysqli->connect_errno) {
             echo "Connetion Failed:check network connection";// to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
         }
@@ -65,7 +65,7 @@ if(isset($_POST["submit"]))
             //bind parameter
             $stmt->bind_param('sii', $desc, $userID, $photoID);
             $stmt->execute();
-            $msg = "Thank You! comment added. click <a href='photo.php?id=".$photoID."'>here</a> to go back";
+            $msg = "Thank You! comment added. click <a href='photo.php?id=".$photoID."'>here</a> to go back".$userID;
         }
     }
     else{
