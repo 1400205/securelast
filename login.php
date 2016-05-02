@@ -22,6 +22,7 @@ if(isset($_POST["submit"]))
         $username = stripslashes( $username );
         $username=mysqli_real_escape_string($db,$username);
         $username = htmlspecialchars($username);
+        $username=trim($username);
         $password=md5($password);
 
 
