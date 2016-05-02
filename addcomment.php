@@ -16,8 +16,6 @@ $userID=$_SESSION["userid"];
 ?>
 <?php
 $msg = ""; //Variable for storing our errors.
-function xssafe($data,$encoding='UTF-8')
-{return htmlspecialchars($data, ENT_HTML401|ENT_QUOTES |ENT_HTML5);}
 
 if(isset($_POST["submit"]))
 {

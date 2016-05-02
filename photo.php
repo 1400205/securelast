@@ -11,17 +11,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
-//Function to cleanup user input for xss
-function xss_cleaner($input_str) {
-    $return_str = str_replace( array('<','>',"'",'"',')','('), array('&lt;','&gt;','&apos;','&#x22;','&#x29;','&#x28;'), $input_str );
-    $return_str = str_ireplace( '%3Cscript', '', $return_str );
-    return $return_str;
-}
-
-function xssafe($data,$encoding='UTF-8')
-{return htmlspecialchars($data, ENT_HTML401|ENT_QUOTES |ENT_HTML5);}
-
 ?>
 <!doctype html>
 <html>
