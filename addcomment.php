@@ -7,7 +7,7 @@ include("connection.php"); //Establishing connection with our database
 <?php
 //connect to db
 $mysqli = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-if(!$mysqli) die('Could not connect');
+if(!$mysqli) die('Could not connect$: ' . mysqli_error());
 
 //get the session variables
 
@@ -31,41 +31,33 @@ if(isset($_POST["submit"]))
     $desc = stripslashes( $desc );
     $desc=mysqli_real_escape_string($db,$desc);
     $desc = htmlspecialchars( $desc );
-    //$desc=xssafe($desc);
-   // $desc=trim($desc);
+    $desc=xssafe($desc);
 
     //clean input name
     $name = stripslashes( $name );
     $name=mysqli_real_escape_string($db,$name);
     $name = htmlspecialchars($name);
-   // $name=xssafe($name);
-   // $name=trim($name);
+    $name=xssafe($name);
 
     //clean input photo ID
     $photoID = stripslashes( $photoID );
     $photoID=mysqli_real_escape_string($db,$photoID);
     $photoID = htmlspecialchars($photoID);
-  // $photoID=xssafe($photoID);
-   // $photoID=trim($photoID);
+    $photoID=xssafe($photoID);
 
     if($userID >0) {
         //test connection
-
-
         if ($mysqli->connect_errno) {
             echo "Connetion Failed:check network connection";// to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
         }
 
         //call procedure
-       // if (! $mysqli->query("CALL sp_insertComments('$desc','$photoID','$userID')"))
-        if ( !( $stmt=$mysqli->prepare("CALL sp_insertComments(?,?,?)"))) {
+        if (! $mysqli->query("CALL sp_insertComments('$desc','$photoID','$userID')"))  {
             echo "Procedure Call Failed:";
 
         }else{
-            //bind parameter
-            $stmt->bind_param('sii', $desc, $userID, $photoID);
-            $stmt->execute();
-            $msg = "Thank You! comment added. click <a href='photo.php?id=".$photoID."'>here</a> to go back".$userID;
+
+            $msg = "Thank You! comment added. click <a href='photo.php?id=".$photoID."'>here</a> to go back";
         }
     }
     else{
