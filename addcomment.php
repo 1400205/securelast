@@ -7,7 +7,7 @@ include("connection.php"); //Establishing connection with our database
 <?php
 //connect to db
 $mysqli = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-if(!$mysqli) die('Could not connect$: ' . mysqli_error());
+if(!$mysqli) die('Could not connect');
 
 //get the session variables
 
