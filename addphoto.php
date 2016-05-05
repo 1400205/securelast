@@ -77,7 +77,7 @@ if(isset($_POST["submit"]))
 
                 //test connection
                 if ($mysqli->connect_errno) {
-                    echo "Connection Fail:Check network connection";//: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+                    //echo "Connection Fail:Check network connection";//: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
                 }
 
                 //call procedure
